@@ -1,9 +1,13 @@
 var path = require('path')
 var webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+// const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
-var ReplacePlugin = require('replace-webpack-plugin');
+const ReplacePlugin = require('replace-webpack-plugin');
+
+const TerserPlugin = require('terser-webpack-plugin');
+
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/main.js',
@@ -12,6 +16,7 @@ module.exports = {
     publicPath: '/dist/',
     filename: 'build.js'
   },
+  
   plugins: [new VueLoaderPlugin()],
   module: {
     rules: [
@@ -39,7 +44,8 @@ module.exports = {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
         options: {
-          name: '[name].[ext]?[hash]'
+          outputPath:'imgs/'
+          // name: '[name].[ext]?[hash]'
         }
       }
     ]
@@ -61,9 +67,12 @@ module.exports = {
   devtool: '#eval-source-map',
   optimization: {
     minimizer: [
-      new UglifyJSPlugin({
-        uglifyOptions: {
-          compress: true,
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true,
+            pure_funcs: ['console.error']
+          },
         }
       }),
     ]
@@ -86,8 +95,12 @@ if (process.env.NODE_ENV === 'production') {
       entry: 'index.html',
       output: '/dist/index.html',
       data: {
-        js: '<script src="build.js"></script>'
+        js: '<script src="build.js"></script>',
+        logo: '<link rel="icon" type="image/x-icon" href="assets/logo.png">'
       }
-    })
+    }),
+    new CopyPlugin([
+      { from: './src/assets', to: 'assets', toType: 'dir' }
+    ])
   ])
 }

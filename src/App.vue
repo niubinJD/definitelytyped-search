@@ -6,7 +6,7 @@
         <h1>DefinitelyTyped Search</h1>
         <div style="margin-top:30px">
           <a-input-search
-            placeholder="input search text"
+            placeholder="DefinitelyTyped Search"
             v-model="searchStr"
             size="large"
             @input="searchInput"
@@ -127,7 +127,7 @@ export default {
             }
           }
         },
-        err => console.log(err)
+        err => console.error(err)
       );
     },
     search: function(value) {
@@ -139,7 +139,6 @@ export default {
       console.log("search", value);
     },
     searchInput: function() {
-      // console.log(value, this.isInit, Object.keys(this.data).length);
       if (
         !this.isInit ||
         !this.searchStr ||
@@ -164,7 +163,7 @@ export default {
             self.isInit = true;
           }
         },
-        err => console.log(err)
+        err => console.error(err)
       );
     },
     gitHubAddress: function(name) {
