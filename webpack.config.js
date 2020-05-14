@@ -86,7 +86,7 @@ if (process.env.NODE_ENV === 'production') {
       entry: 'index.html',
       output: '/dist/index.html',
       data: {
-        js: '<script src="/definitelytyped-search/dist/build.js"></script>'
+        js: '<script src="build.js"></script>'
       }
     })
   ])
