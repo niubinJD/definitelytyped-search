@@ -3,6 +3,8 @@ var webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
+var ReplacePlugin = require('replace-webpack-plugin');
+
 module.exports = {
   entry: './src/main.js',
   output: {
@@ -19,7 +21,7 @@ module.exports = {
           'vue-style-loader',
           'css-loader'
         ],
-      },      {
+      }, {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
@@ -59,13 +61,13 @@ module.exports = {
   devtool: '#eval-source-map',
   optimization: {
     minimizer: [
-             new UglifyJSPlugin({
-              uglifyOptions: {
-                compress: false,
-              }
-            }),
-         ]
-   }
+      new UglifyJSPlugin({
+        uglifyOptions: {
+          compress: true,
+        }
+      }),
+    ]
+  }
 }
 
 if (process.env.NODE_ENV === 'production') {
@@ -77,14 +79,15 @@ if (process.env.NODE_ENV === 'production') {
         NODE_ENV: '"production"'
       }
     }),
-    // new webpack.optimize.UglifyJsPlugin({
-    //   sourceMap: true,
-    //   compress: {
-    //     warnings: false
-    //   }
-    // }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
+    }),
+    new ReplacePlugin({
+      entry: 'index.html',
+      output: '/dist/index.html',
+      data: {
+        js: '<script src="/definitelytyped-search/dist/build.js"></script>'
+      }
     })
   ])
 }
