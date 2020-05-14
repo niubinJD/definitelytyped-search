@@ -96,7 +96,7 @@ if (process.env.NODE_ENV === 'production') {
       output: '/dist/index.html',
       data: {
         js: '<script src="build.js"></script>',
-        logo: '<link rel="icon" type="image/x-icon" href="assets/logo.png">'
+        logo: '<link rel="icon" type="image/x-icon" href="./assets/logo.png">'
       }
     }),
     new CopyPlugin([
