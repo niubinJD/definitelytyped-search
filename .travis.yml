@@ -9,7 +9,7 @@ script: npm run build
 deploy:
   provider: pages
   skip_cleanup: true
-  github_token: $deploy_secret # Set in the settings page of your repository, as a secure variable
+  github_token: $DEPLOY
   keep_history: true
   on:
     branch: master
