@@ -12,6 +12,12 @@ branch:
 git:
   quite: true
   depth: 1
+notifications:
+  email:
+    recipients:
+      - niubinbing@gmail.com
+    on_success: never # default: change
+    on_failure: always # default: always
 
 deploy:
   provider: pages
