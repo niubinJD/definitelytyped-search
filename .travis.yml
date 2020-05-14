@@ -1,3 +1,11 @@
+dist: bionic  # 系统
+language: node_js # 语言环境
+node_js:
+  - 12.16.2 # node版本
+cache: npm
+install:
+  - npm install
+script: npm run build
 deploy:
   provider: pages
   skip_cleanup: true
