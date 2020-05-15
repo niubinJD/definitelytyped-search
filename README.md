@@ -1,1 +1,1 @@
-# types-search
+# types-search [![Build Status](https://travis-ci.com/niubinJD/definitelytyped-search.svg?branch=master)](https://travis-ci.com/niubinJD/definitelytyped-search)
