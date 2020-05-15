@@ -4,7 +4,7 @@
       <a-col :span="6"></a-col>
       <a-col :span="12">
         <h1>DefinitelyTyped Search</h1>
-        <div style="margin-top:30px">
+        <div style="margin-top:30px;margin-bottom:50px;">
           <a-input-search
             placeholder="DefinitelyTyped Search"
             v-model="searchStr"
@@ -72,6 +72,12 @@
                 </div>
               </div>
             </li>
+            <li class="loading" v-if="allSearched.length > searched.length">
+               <a-button type="default" size="large" @click="loadMore()" :loading="isLoading">
+                  more
+              </a-button>
+              <!-- 显示更多 -->
+              </li>
           </ul>
         </div>
       </a-col>
@@ -94,10 +100,13 @@ export default {
     return {
       data: {},
       searched: [],
+      allSearched: [],
       searchStr: "",
       isInit: false,
       shaValue: null,
-      isActive: null
+      isActive: null,
+      pageSize: 10,
+      isLoading: false
     };
   },
   created() {
@@ -139,17 +148,19 @@ export default {
       console.log("search", value);
     },
     searchInput: function() {
+      this.pageSize = 10;
       if (
         !this.isInit ||
         !this.searchStr ||
         Object.keys(this.data).length === 0
       ) {
         this.searched = [];
+        this.allSearched = [];
         return;
       }
-      this.searched = Object.keys(this.data)
-        .filter(x => x.indexOf(this.searchStr) !== -1)
-        .slice(0, 15);
+      this.allSearched = Object.keys(this.data)
+        .filter(x => x.indexOf(this.searchStr) !== -1);
+      this.searched = this.allSearched.slice(0, this.pageSize);
       console.log(this.searched);
     },
     initData: function() {
@@ -165,6 +176,17 @@ export default {
         },
         err => console.error(err)
       );
+    },
+    loadMore: function() {
+      if(this.allSearched.length <= this.searched.length) {
+        return;
+      }
+      this.isLoading = true;
+      setTimeout(() => {
+        this.pageSize += 5;
+        this.searched = this.allSearched.slice(0, this.pageSize);
+        this.isLoading = false;
+      }, 1000);
     },
     gitHubAddress: function(name) {
       return sanitizeUrl(
@@ -248,4 +270,8 @@ li {
 a {
   color: #42b983;
 }
+
+.loading {
+  text-align: center;
+ }
 </style>
