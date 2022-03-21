@@ -10,7 +10,7 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
-    "@braintree/sanitize-url": "^4.0.1",
+    "@braintree/sanitize-url": "^6.0.0",
     "ant-design-vue": "^1.5.6",
     "replace-webpack-plugin": "^0.1.2",
     "vue": "^2.5.11",
